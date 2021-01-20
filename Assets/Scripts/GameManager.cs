@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
     [Header("BikerInfo")]
     public int MaxAmountOfBikersPerLane = 5;
+    private int currentBikersActive;
 
     private float actualTimer;
     private int laneToAdd = 1;
@@ -56,26 +57,37 @@ public class GameManager : MonoBehaviour
 
         if (actualTimer < 40 && actualTimer > 39 && !addingLane)
         {
-           StartCoroutine(AddLane(laneToAdd));
+            StartCoroutine(AddLane(laneToAdd));
         }
-        if(actualTimer < 20 && actualTimer > 19 && !addingLane)
+        if (actualTimer < 20 && actualTimer > 19 && !addingLane)
         {
             StartCoroutine(AddLane(laneToAdd));
         }
-       
+
+        if (spawnLocation[0] != null && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+        {
+            SpawnBiker();
+        }
+
+        if(bicycleRow[1].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+        {
+            SpawnBiker();
+        }
     }
 
     private void SpawnBiker()
     {
-        if (spawnLocation[0] != null && !spawnedBiker)
+        spawnedBiker = true;
+        for (int i = 0; i < MaxAmountOfBikersPerLane; i++)
         {
-            spawnedBiker = true;
-            GameObject biker001 = Instantiate(fietser, spawnLocation[0].transform.position, spawnLocation[0].transform.rotation);
-            Bicycle bikerScript = biker001.AddComponent<Bicycle>();
-            bikerScript.InstantiateBiker(spawnedRight: false);
-
-            bikers.Add(biker001);
+            GameObject biker = Instantiate(fietser, spawnLocation[0].transform.position, spawnLocation[0].transform.rotation);
+            Bicycle bikerScript = biker.AddComponent<Bicycle>();
+            bikerScript.InstantiateBiker("Biker_" + (i+1), spawnedRight: false, Random.Range(1, 10));
+            bikers.Add(biker);
+            currentBikersActive++;
         }
+
+        spawnedBiker = false;
     }
 
     private void GetSpawnLocations()
