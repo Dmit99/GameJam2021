@@ -6,7 +6,7 @@ public class Bicycle : MonoBehaviour
 {
     //If spawned right is true he comes sideways.
     //If its falles he spawns bottom screen.
-    private bool spawnedRight;
+    [SerializeField] private bool spawnedRight;
     private string name;
     private float speed;
 
@@ -26,23 +26,31 @@ public class Bicycle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (spawnedRight)
-        {
-            MoveLeft();
-        }
-        else if (!spawnedRight)
-        {
-            MoveUp();
-        }
-    }
-    
-    void MoveUp()
-    {
-        transform.Translate(0, speed, 0);
+        moving(spawnedRight);
     }
 
-    void MoveLeft()
+    void moving(bool right)
     {
-        transform.Translate(speed, 0, 0);
+        if (right)
+        {
+            transform.Translate(-speed, 0, 0);
+        }
+        else transform.Translate(0, speed, 0);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "LaneCollider")
+        {
+            StartCoroutine(Die());
+        }
+    }
+
+    IEnumerator Die()
+    {
+        GameManager.instance.SetCurrentActiveBikers();
+        GameManager.instance.CurrentBikersListChecker();
+        yield return new WaitForSeconds(0.01f);
+        Destroy(this.gameObject);
     }
 }

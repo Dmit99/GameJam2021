@@ -25,6 +25,7 @@ public class GameManager : MonoBehaviour
     private int laneToAdd = 1;
     private bool addingLane;
     private bool spawnedBiker;
+    private bool generatingBiker;
 
     private void Awake()
     {
@@ -41,14 +42,22 @@ public class GameManager : MonoBehaviour
         actualTimer = timerAmount;
         addingLane = false;
         spawnedBiker = false;
+        generatingBiker = false;
 
         bikers = new List<GameObject>();
     }
 
-
     void Start()
     {
         GetSpawnLocations();
+
+        for (int i = 0; i < MaxAmountOfBikersPerLane; i++)
+        {
+            if (spawnLocation[0] != null && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+            {
+                SpawnBiker(0, false);
+            }
+        }
     }
 
     void Update()
@@ -64,30 +73,80 @@ public class GameManager : MonoBehaviour
             StartCoroutine(AddLane(laneToAdd));
         }
 
-        if (spawnLocation[0] != null && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+        if (currentBikersActive < MaxAmountOfBikersPerLane && !generatingBiker)
         {
-            SpawnBiker();
-        }
-
-        if(bicycleRow[1].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
-        {
-            SpawnBiker();
+            GenerateSpawnLocationForBiker();
         }
     }
 
-    private void SpawnBiker()
+    public void CurrentBikersListChecker()
+    {
+        for (int i = 0; i < bikers.Count; i++)
+        {
+            if(bikers[i] == null)
+            {
+                bikers.Remove(bikers[i]);
+            }
+        }
+    }
+
+    private void GenerateSpawnLocationForBiker()
+    {
+        generatingBiker = true;
+        int randomNumber = Random.Range(0, bicycleRow.Length);
+        switch (randomNumber)
+        {
+            case 0:
+                if (spawnLocation[0] != null && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+                {
+                    SpawnBiker(0, false);
+                }
+                else GenerateSpawnLocationForBiker();
+                break;
+
+            case 1:
+                if (bicycleRow[1].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+                {
+                    SpawnBiker(1, true);
+                }
+                else GenerateSpawnLocationForBiker();
+                break;
+
+            case 2:
+                if (bicycleRow[2].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+                {
+                    SpawnBiker(2, false);
+                }
+                else GenerateSpawnLocationForBiker();
+                break;
+
+            default:
+                Debug.LogError("More lanes have been added then the switch case has been added. \nCreate more lanes and add them in the switchcase.");
+                break;
+        }
+        generatingBiker = false;
+    }
+
+    private void SpawnBiker(int rowNumber, bool spawnRight)
     {
         spawnedBiker = true;
-        for (int i = 0; i < MaxAmountOfBikersPerLane; i++)
-        {
-            GameObject biker = Instantiate(fietser, spawnLocation[0].transform.position, spawnLocation[0].transform.rotation);
-            Bicycle bikerScript = biker.AddComponent<Bicycle>();
-            bikerScript.InstantiateBiker("Biker_" + (i+1), spawnedRight: false, Random.Range(1, 10));
-            bikers.Add(biker);
-            currentBikersActive++;
-        }
+        GameObject biker = Instantiate(fietser, spawnLocation[rowNumber].transform.position, fietser.transform.rotation);
+        Bicycle bikerScript = biker.AddComponent<Bicycle>();
+        bikerScript.InstantiateBiker("Biker_" + currentBikersActive, spawnedRight: spawnRight, Random.Range(1, 10));
+        bikers.Add(biker);
+        currentBikersActive++;
 
         spawnedBiker = false;
+    }
+
+    public int GetCurrentActiveBikers()
+    {
+        return currentBikersActive;
+    }
+
+    public void SetCurrentActiveBikers()
+    {
+        currentBikersActive--;
     }
 
     private void GetSpawnLocations()
