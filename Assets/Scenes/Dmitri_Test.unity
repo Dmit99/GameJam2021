@@ -1248,7 +1248,10 @@ MonoBehaviour:
   - {fileID: 1751543089}
   roadUsersInScene: []
   bikerSprites:
-  - {fileID: 21300000, guid: a602790a2b92b1443b2dcbce8ef19a01, type: 3}
+  - {fileID: 21300000, guid: 93f10da20e654314d86dbfbb487c6967, type: 3}
+  - {fileID: 21300000, guid: 494b43d71ef1d944e8d16d9fbb6f0382, type: 3}
+  - {fileID: 21300000, guid: bae3eb958f7aaae489424b6c3c8a50ba, type: 3}
+  - {fileID: 21300000, guid: 0b35c3560752d104d89a581cebcf8946, type: 3}
   scooterSprites:
   - {fileID: 21300000, guid: ae1c654c78f943343af90ce0369f00d9, type: 3}
   MaxAmountOfRoadUsersPerLane: 5

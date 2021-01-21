@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private Transform[] spawnLocation;
 
     [Header("Sprites")]
-    public Sprite[] bikerSprites;
+    [Tooltip("Biker sprites must be 4 sprites!")]public Sprite[] bikerSprites;
     public Sprite[] scooterSprites;
 
     [Header("BikerInfo")]
@@ -47,6 +47,11 @@ public class GameManager : MonoBehaviour
         generatingRoadUser = false;
 
         roadUsersInScene = new List<GameObject>();
+
+        if(bikerSprites.Length != 4)
+        {
+            Debug.Log("bikersprites is or to long or its to short. bikersprites must be 4! \nCurrent value is: " + bikerSprites.Length);
+        }
     }
 
     void Start()
@@ -118,7 +123,7 @@ public class GameManager : MonoBehaviour
         if (isScooter == 0)
         {
             Biker bikerScript = user.AddComponent<Biker>();
-            bikerScript.GenerateBiker(bikerImage: bikerSprites[0],drive: true, accident: false, stoplightstop: false, speed: Random.Range(1, 10), roadusername: "Biker_" + currentRoadUsersActive + 1);
+            bikerScript.GenerateBiker(bikerImage001: bikerSprites[0], bikerImage002: bikerSprites[1], bikerImage003: bikerSprites[2], bikerImage004: bikerSprites[3],drive: true, accident: false, stoplightstop: false, speed: Random.Range(1, 10), roadusername: "Biker_" + currentRoadUsersActive + 1);
         }
         else if (isScooter == 1)
         {
