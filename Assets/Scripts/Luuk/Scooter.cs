@@ -24,6 +24,8 @@ public class Scooter : roadUser
         this.stoplightstop = stoplightstop;
         this.speed = speed;
         this.roadusername = roadusername;
+
+        this.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = this.scooterImage;
     }
 
     public Sprite GetScooterImage()

@@ -1240,14 +1240,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73937fa54c5a31040ae41da74cc44da1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fietser: {fileID: 3294607066442308611, guid: 482cf040984fec94a83137101c42df3e, type: 3}
+  roadUser: {fileID: 3294607066442308611, guid: 482cf040984fec94a83137101c42df3e, type: 3}
   timer: {fileID: 1353392556}
-  bicycleRow:
+  roadUserRow:
   - {fileID: 1538286052}
   - {fileID: 424616991}
   - {fileID: 1751543089}
-  bikers: []
-  MaxAmountOfBikersPerLane: 10
+  roadUsersInScene: []
+  bikerSprites:
+  - {fileID: 21300000, guid: a602790a2b92b1443b2dcbce8ef19a01, type: 3}
+  scooterSprites:
+  - {fileID: 21300000, guid: ae1c654c78f943343af90ce0369f00d9, type: 3}
+  MaxAmountOfRoadUsersPerLane: 5
 --- !u!4 &2081512572
 Transform:
   m_ObjectHideFlags: 0

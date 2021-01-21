@@ -23,6 +23,8 @@ public class Biker : roadUser
         this.stoplightstop = stoplightstop;
         this.speed = speed;
         this.roadusername = roadusername;
+
+        this.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = this.bikerImage;
     }
 
 

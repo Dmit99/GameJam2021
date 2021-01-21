@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     [Header("Global Information")]
     public TextMeshProUGUI timer;
     public GameObject[] roadUserRow;
-    public List<GameObject> list_RoadUser;
+    public List<GameObject> roadUsersInScene;
     private Transform[] spawnLocation;
 
     [Header("Sprites")]
@@ -46,7 +46,7 @@ public class GameManager : MonoBehaviour
         spawnedRoadUser = false;
         generatingRoadUser = false;
 
-        list_RoadUser = new List<GameObject>();
+        roadUsersInScene = new List<GameObject>();
     }
 
     void Start()
@@ -83,11 +83,11 @@ public class GameManager : MonoBehaviour
 
     public void CurrentBikersListChecker()
     {
-        for (int i = 0; i < list_RoadUser.Count; i++)
+        for (int i = 0; i < roadUsersInScene.Count; i++)
         {
-            if(list_RoadUser[i] == null)
+            if(roadUsersInScene[i] == null)
             {
-                list_RoadUser.Remove(list_RoadUser[i]);
+                roadUsersInScene.Remove(roadUsersInScene[i]);
             }
         }
     }
@@ -128,7 +128,7 @@ public class GameManager : MonoBehaviour
             scooterScript.GenerateScooter(scooterImage: scooterSprites[0], stoplightGo: waitingForTrafficLights,drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), roadusername: "Biker_" + currentRoadUsersActive + 1);
         }
 
-        list_RoadUser.Add(user);
+        roadUsersInScene.Add(user);
         currentRoadUsersActive++;
         spawnedRoadUser = false;
     }
