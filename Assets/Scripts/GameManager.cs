@@ -6,26 +6,28 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance = null;
-    public GameObject fietser;
+    public GameObject roadUser;
 
     [Header("Global Information")]
-    private float timerAmount = 60;
     public TextMeshProUGUI timer;
-
-    [Header("Sprites")]
-    public GameObject[] bicycleRow;
-    public List<GameObject> bikers;
+    public GameObject[] roadUserRow;
+    public List<GameObject> list_RoadUser;
     private Transform[] spawnLocation;
 
-    [Header("BikerInfo")]
-    public int MaxAmountOfBikersPerLane = 5;
-    private int currentBikersActive;
+    [Header("Sprites")]
+    public Sprite[] bikerSprites;
+    public Sprite[] scooterSprites;
 
+    [Header("BikerInfo")]
+    public int MaxAmountOfRoadUsersPerLane = 5;
+    private int currentRoadUsersActive;
+
+    private readonly float timerAmount = 60;
     private float actualTimer;
     private int laneToAdd = 1;
     private bool addingLane;
-    private bool spawnedBiker;
-    private bool generatingBiker;
+    private bool spawnedRoadUser;
+    private bool generatingRoadUser;
 
     private void Awake()
     {
@@ -41,19 +43,19 @@ public class GameManager : MonoBehaviour
 
         actualTimer = timerAmount;
         addingLane = false;
-        spawnedBiker = false;
-        generatingBiker = false;
+        spawnedRoadUser = false;
+        generatingRoadUser = false;
 
-        bikers = new List<GameObject>();
+        list_RoadUser = new List<GameObject>();
     }
 
     void Start()
     {
         GetSpawnLocations();
 
-        for (int i = 0; i < MaxAmountOfBikersPerLane; i++)
+        for (int i = 0; i < MaxAmountOfRoadUsersPerLane; i++)
         {
-            if (spawnLocation[0] != null && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+            if (spawnLocation[0] != null && !spawnedRoadUser && currentRoadUsersActive < MaxAmountOfRoadUsersPerLane)
             {
                 SpawnBiker(0);
             }
@@ -73,7 +75,7 @@ public class GameManager : MonoBehaviour
             StartCoroutine(AddLane(laneToAdd));
         }
 
-        if (currentBikersActive < MaxAmountOfBikersPerLane && !generatingBiker)
+        if (currentRoadUsersActive < MaxAmountOfRoadUsersPerLane && !generatingRoadUser)
         {
             GenerateSpawnLocationForBiker();
         }
@@ -81,62 +83,77 @@ public class GameManager : MonoBehaviour
 
     public void CurrentBikersListChecker()
     {
-        for (int i = 0; i < bikers.Count; i++)
+        for (int i = 0; i < list_RoadUser.Count; i++)
         {
-            if(bikers[i] == null)
+            if(list_RoadUser[i] == null)
             {
-                bikers.Remove(bikers[i]);
+                list_RoadUser.Remove(list_RoadUser[i]);
             }
         }
     }
 
     private void GenerateSpawnLocationForBiker()
     {
-        generatingBiker = true;
-        int randomNumber = Random.Range(0, bicycleRow.Length);
+        generatingRoadUser = true;
+        int randomNumber = Random.Range(0, roadUserRow.Length);
 
-        if (bicycleRow[randomNumber].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
+        if (roadUserRow[randomNumber].activeSelf && !spawnedRoadUser && currentRoadUsersActive < MaxAmountOfRoadUsersPerLane)
         {
             SpawnBiker(randomNumber);
         }
         else GenerateSpawnLocationForBiker();
 
-        generatingBiker = false;
+        generatingRoadUser = false;
     }
 
     private void SpawnBiker(int rowNumber)
     {
-        spawnedBiker = true;
-        GameObject biker = Instantiate(fietser, spawnLocation[rowNumber].transform.position, spawnLocation[rowNumber].transform.rotation);
-        Bicycle bikerScript = biker.AddComponent<Bicycle>();
-        bikerScript.InstantiateBiker("Biker_" + currentBikersActive +1, Random.Range(1, 10));
-        bikers.Add(biker);
-        currentBikersActive++;
+        spawnedRoadUser = true;
+        int isScooter = Random.Range(0, 2);
 
-        spawnedBiker = false;
+        GameObject user = Instantiate(roadUser, spawnLocation[rowNumber].transform.position, spawnLocation[rowNumber].transform.rotation);
+
+        ///0 means false, so its not a scooter.
+        ///1 means true, so it is.
+        if (isScooter == 0)
+        {
+            Biker bikerScript = user.AddComponent<Biker>();
+            bikerScript.GenerateBiker(bikerImage: bikerSprites[0],drive: true, accident: false, stoplightstop: false, speed: Random.Range(1, 10), roadusername: "Biker_" + currentRoadUsersActive + 1);
+        }
+        else if (isScooter == 1)
+        {
+            bool waitingForTrafficLights = (Random.value > 0.5f);
+
+            Scooter scooterScript = user.AddComponent<Scooter>();
+            scooterScript.GenerateScooter(scooterImage: scooterSprites[0], stoplightGo: waitingForTrafficLights,drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), roadusername: "Biker_" + currentRoadUsersActive + 1);
+        }
+
+        list_RoadUser.Add(user);
+        currentRoadUsersActive++;
+        spawnedRoadUser = false;
     }
 
     public int GetCurrentActiveBikers()
     {
-        return currentBikersActive;
+        return currentRoadUsersActive;
     }
 
     public void SetCurrentActiveBikers()
     {
-        currentBikersActive--;
+        currentRoadUsersActive--;
     }
 
     private void GetSpawnLocations()
     {
-        spawnLocation = new Transform[bicycleRow.Length];
+        spawnLocation = new Transform[roadUserRow.Length];
 
-        for (int i = 0; i < bicycleRow.Length; i++)
+        for (int i = 0; i < roadUserRow.Length; i++)
         {
-            if (bicycleRow[i] == bicycleRow[0])
+            if (roadUserRow[i] == roadUserRow[0])
             {
-                bicycleRow[i].SetActive(true);
+                roadUserRow[i].SetActive(true);
 
-                foreach (Transform spawnLocation in bicycleRow[i].transform)
+                foreach (Transform spawnLocation in roadUserRow[i].transform)
                 {
                     if (spawnLocation.name == "BicycleSpawnLocation")
                     {
@@ -147,7 +164,7 @@ public class GameManager : MonoBehaviour
             }
             else
             {
-                foreach (Transform spawnLocation in bicycleRow[i].transform)
+                foreach (Transform spawnLocation in roadUserRow[i].transform)
                 {
                     if (spawnLocation.name == "BicycleSpawnLocation")
                     {
@@ -155,7 +172,7 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
-                bicycleRow[i].SetActive(false);
+                roadUserRow[i].SetActive(false);
             }
         }
     }
@@ -175,7 +192,7 @@ public class GameManager : MonoBehaviour
     IEnumerator AddLane(int laneNumber)
     {
         addingLane = true;
-        bicycleRow[laneNumber].SetActive(true);
+        roadUserRow[laneNumber].SetActive(true);
         yield return new WaitForSeconds(1);
         laneToAdd++;
         addingLane = false;
