@@ -15,7 +15,7 @@ public class Biker : roadUser
     /// <param name="stoplightstop"></param>
     /// <param name="speed"></param>
     /// <param name="roadusername"></param>
-    public void GenerateBiker(Sprite bikerImage001, Sprite bikerImage002, Sprite bikerImage003, Sprite bikerImage004, bool drive, bool accident, bool stoplightstop, float speed, string roadusername)
+    public void GenerateBiker(Sprite bikerImage001, Sprite bikerImage002, Sprite bikerImage003, Sprite bikerImage004, bool drive, bool accident, bool stoplightstop, float speed, int laneNumber,string roadusername)
     {
         bikerImage[0] = bikerImage001;
         bikerImage[1] = bikerImage002;
@@ -26,6 +26,7 @@ public class Biker : roadUser
         this.accident = accident;
         this.stoplightstop = stoplightstop;
         this.speed = speed;
+        this.laneNumber = laneNumber;
         this.roadusername = roadusername;
     }
 
@@ -43,7 +44,7 @@ public class Biker : roadUser
         this.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = bikerImage[1];
         yield return new WaitForSeconds(currentSpeed);
         this.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = bikerImage[2];
-        yield return new WaitForSeconds(currentSpeed / -1);
+        yield return new WaitForSeconds(currentSpeed);
         this.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = bikerImage[3];
         yield return new WaitForSeconds(currentSpeed);
         StartCoroutine(VisualMoving(currentSpeed: currentSpeed));

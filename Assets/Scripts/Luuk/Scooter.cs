@@ -15,7 +15,7 @@ public class Scooter : roadUser
     /// <param name="stoplightstop"></param>
     /// <param name="speed"></param>
     /// <param name="roadusername"></param>
-    public void GenerateScooter(Sprite scooterImage, bool stoplightGo, bool drive, bool accident, bool stoplightstop, int speed, string roadusername)
+    public void GenerateScooter(Sprite scooterImage, bool stoplightGo, bool drive, bool accident, bool stoplightstop, int speed, int laneNumber,string roadusername)
     {
         this.scooterImage = scooterImage;
         this.stoplightGo = stoplightGo;
@@ -23,6 +23,7 @@ public class Scooter : roadUser
         this.accident = accident;
         this.stoplightstop = stoplightstop;
         this.speed = speed;
+        this.laneNumber = laneNumber;
         this.roadusername = roadusername;
 
         this.gameObject.GetComponentInChildren<SpriteRenderer>().sprite = this.scooterImage;

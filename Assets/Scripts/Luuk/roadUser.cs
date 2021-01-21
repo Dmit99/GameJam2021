@@ -6,6 +6,7 @@ public class roadUser : MonoBehaviour
     protected bool drive;
     protected bool accident;
     protected bool stoplightstop;
+    protected int laneNumber;
 
     protected float speed;
 
@@ -19,8 +20,9 @@ public class roadUser : MonoBehaviour
     /// <param name="stoplightstop"></param>
     /// <param name="speed"></param>
     /// <param name="roadusername"></param>
-    public void GenerateRoadUser(bool drive, bool accident, bool stoplightstop, int speed, string roadusername)
+    public void GenerateRoadUser(bool drive, bool accident, bool stoplightstop, int speed, int laneNumber,string roadusername)
     {
+        this.laneNumber = laneNumber;
         this.drive = drive;
         this.accident = accident;
         this.stoplightstop = stoplightstop;
@@ -35,7 +37,10 @@ public class roadUser : MonoBehaviour
 
     private void Update()
     {
-        Moving();
+        if (!accident)
+        {
+            Moving();
+        }
     }
 
     public void Moving()
@@ -47,7 +52,18 @@ public class roadUser : MonoBehaviour
     {
         if (collision.gameObject.tag == "LaneCollider")
         {
+            GameManager.instance.RoadUserSavePass();
             StartCoroutine(Die());
+        }
+        
+        if(collision.gameObject.tag == "RoadUser")
+        {
+            roadUser userscript = collision.gameObject.GetComponent<roadUser>();
+            if (userscript.laneNumber != laneNumber)
+            {
+                accident = true;
+                StartCoroutine(Die());
+            }
         }
     }
 
@@ -61,8 +77,7 @@ public class roadUser : MonoBehaviour
 
     protected float CalculateSpriteSpeed(float currentspeed)
     {
-        float value = 10 / currentspeed;
-        value /= 10;
+        float value = 1 / currentspeed;
         return value;
     }
 

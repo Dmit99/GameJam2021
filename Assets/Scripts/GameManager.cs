@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Global Information")]
     public TextMeshProUGUI timer;
+    public TextMeshProUGUI score;
     public GameObject[] roadUserRow;
     public List<GameObject> roadUsersInScene;
     private Transform[] spawnLocation;
@@ -25,6 +26,7 @@ public class GameManager : MonoBehaviour
     private readonly float timerAmount = 60;
     private float actualTimer;
     private int laneToAdd = 1;
+    private int points;
     private bool addingLane;
     private bool spawnedRoadUser;
     private bool generatingRoadUser;
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
+        points = 0;
         actualTimer = timerAmount;
         addingLane = false;
         spawnedRoadUser = false;
@@ -52,6 +55,8 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("bikersprites is or to long or its to short. bikersprites must be 4! \nCurrent value is: " + bikerSprites.Length);
         }
+
+        score.text = "Score: 0";
     }
 
     void Start()
@@ -75,6 +80,12 @@ public class GameManager : MonoBehaviour
         {
             StartCoroutine(AddLane(laneToAdd));
         }
+
+        if (actualTimer < 30 && actualTimer > 19 && !addingLane)
+        {
+            StartCoroutine(AddLane(laneToAdd));
+        }
+        
         if (actualTimer < 20 && actualTimer > 19 && !addingLane)
         {
             StartCoroutine(AddLane(laneToAdd));
@@ -123,14 +134,14 @@ public class GameManager : MonoBehaviour
         if (isScooter == 0)
         {
             Biker bikerScript = user.AddComponent<Biker>();
-            bikerScript.GenerateBiker(bikerImage001: bikerSprites[0], bikerImage002: bikerSprites[1], bikerImage003: bikerSprites[2], bikerImage004: bikerSprites[3],drive: true, accident: false, stoplightstop: false, speed: Random.Range(1, 10), roadusername: "Biker_" + currentRoadUsersActive + 1);
+            bikerScript.GenerateBiker(bikerImage001: bikerSprites[0], bikerImage002: bikerSprites[1], bikerImage003: bikerSprites[2], bikerImage004: bikerSprites[3],drive: true, accident: false, stoplightstop: false, speed: Random.Range(1, 10), laneNumber: rowNumber, roadusername: "Biker_" + currentRoadUsersActive + 1);
         }
         else if (isScooter == 1)
         {
             bool waitingForTrafficLights = (Random.value > 0.5f);
 
             Scooter scooterScript = user.AddComponent<Scooter>();
-            scooterScript.GenerateScooter(scooterImage: scooterSprites[0], stoplightGo: waitingForTrafficLights,drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), roadusername: "Biker_" + currentRoadUsersActive + 1);
+            scooterScript.GenerateScooter(scooterImage: scooterSprites[0], stoplightGo: waitingForTrafficLights, drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), laneNumber: rowNumber, roadusername: "Biker_" + currentRoadUsersActive + 1);
         }
 
         roadUsersInScene.Add(user);
@@ -146,6 +157,12 @@ public class GameManager : MonoBehaviour
     public void SetCurrentActiveBikers()
     {
         currentRoadUsersActive--;
+    }
+
+    public void RoadUserSavePass()
+    {
+        points++;
+        score.text = "Score: " + points;
     }
 
     private void GetSpawnLocations()
