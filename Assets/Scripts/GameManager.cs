@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         {
             if (spawnLocation[0] != null && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
             {
-                SpawnBiker(0, false);
+                SpawnBiker(0);
             }
         }
     }
@@ -94,45 +94,22 @@ public class GameManager : MonoBehaviour
     {
         generatingBiker = true;
         int randomNumber = Random.Range(0, bicycleRow.Length);
-        switch (randomNumber)
+
+        if (bicycleRow[randomNumber].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
         {
-            case 0:
-                if (spawnLocation[0] != null && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
-                {
-                    SpawnBiker(0, false);
-                }
-                else GenerateSpawnLocationForBiker();
-                break;
-
-            case 1:
-                if (bicycleRow[1].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
-                {
-                    SpawnBiker(1, true);
-                }
-                else GenerateSpawnLocationForBiker();
-                break;
-
-            case 2:
-                if (bicycleRow[2].activeSelf && !spawnedBiker && currentBikersActive < MaxAmountOfBikersPerLane)
-                {
-                    SpawnBiker(2, false);
-                }
-                else GenerateSpawnLocationForBiker();
-                break;
-
-            default:
-                Debug.LogError("More lanes have been added then the switch case has been added. \nCreate more lanes and add them in the switchcase.");
-                break;
+            SpawnBiker(randomNumber);
         }
+        else GenerateSpawnLocationForBiker();
+
         generatingBiker = false;
     }
 
-    private void SpawnBiker(int rowNumber, bool spawnRight)
+    private void SpawnBiker(int rowNumber)
     {
         spawnedBiker = true;
-        GameObject biker = Instantiate(fietser, spawnLocation[rowNumber].transform.position, fietser.transform.rotation);
+        GameObject biker = Instantiate(fietser, spawnLocation[rowNumber].transform.position, spawnLocation[rowNumber].transform.rotation);
         Bicycle bikerScript = biker.AddComponent<Bicycle>();
-        bikerScript.InstantiateBiker("Biker_" + currentBikersActive, spawnedRight: spawnRight, Random.Range(1, 10));
+        bikerScript.InstantiateBiker("Biker_" + currentBikersActive +1, Random.Range(1, 10));
         bikers.Add(biker);
         currentBikersActive++;
 
