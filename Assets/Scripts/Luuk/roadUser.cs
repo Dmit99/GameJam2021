@@ -7,7 +7,7 @@ public class roadUser : MonoBehaviour
     protected bool accident;
     protected bool stoplightstop;
 
-    protected int speed;
+    protected float speed;
 
     protected string roadusername;
 
@@ -59,6 +59,13 @@ public class roadUser : MonoBehaviour
         Destroy(this.gameObject);
     }
 
+    protected float CalculateSpriteSpeed(float currentspeed)
+    {
+        float value = 10 / currentspeed;
+        value /= 10;
+        return value;
+    }
+
     public bool GetAccident()
     {
         return accident;
@@ -74,7 +81,7 @@ public class roadUser : MonoBehaviour
         return stoplightstop;
     }
 
-    public int Getspeed()
+    public float Getspeed()
     {
         return speed;
     }
