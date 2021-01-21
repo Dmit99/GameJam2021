@@ -1,7 +1,28 @@
 fileFormatVersion: 2
 guid: d88ef05e37312954a95e49534e423603
 TextureImporter:
-  internalIDToNameTable: []
+  internalIDToNameTable:
+  - first:
+      213: 1798229521141506150
+    second: Huisjes_0
+  - first:
+      213: -4632879248587056832
+    second: Huisjes_1
+  - first:
+      213: -1452179196779768598
+    second: Huisjes_4
+  - first:
+      213: 7965787598639231143
+    second: Huisjes_5
+  - first:
+      213: -8423395347430309379
+    second: Huisjes_6
+  - first:
+      213: -3209309441530534761
+    second: Huisjes_7
+  - first:
+      213: 6885546880869890800
+    second: Huisjes_8
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -41,7 +62,7 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 1
+  spriteMode: 2
   spriteExtrude: 1
   spriteMeshType: 1
   alignment: 0
@@ -75,9 +96,168 @@ TextureImporter:
     overridden: 0
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Huisjes_0
+      rect:
+        serializedVersion: 2
+        x: 237
+        y: 1513
+        width: 512
+        height: 754
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 660a248d83894f810800000000000000
+      internalID: 1798229521141506150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Huisjes_1
+      rect:
+        serializedVersion: 2
+        x: 833
+        y: 1241
+        width: 512
+        height: 1028
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 04990b49ed4b4bfb0800000000000000
+      internalID: -4632879248587056832
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Huisjes_4
+      rect:
+        serializedVersion: 2
+        x: 1616
+        y: 1743
+        width: 476
+        height: 681
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ae4dab9e6b2d8dbe0800000000000000
+      internalID: -1452179196779768598
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Huisjes_5
+      rect:
+        serializedVersion: 2
+        x: 2334
+        y: 1695
+        width: 885
+        height: 585
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a07a1dcd992c8e60800000000000000
+      internalID: 7965787598639231143
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Huisjes_6
+      rect:
+        serializedVersion: 2
+        x: 241
+        y: 624
+        width: 621
+        height: 538
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: df10db18f861a1b80800000000000000
+      internalID: -8423395347430309379
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Huisjes_7
+      rect:
+        serializedVersion: 2
+        x: 1450
+        y: 590
+        width: 718
+        height: 831
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 794e34b011e3673d0800000000000000
+      internalID: -3209309441530534761
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Huisjes_8
+      rect:
+        serializedVersion: 2
+        x: 2339
+        y: 595
+        width: 726
+        height: 493
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0fa7c8e28606e8f50800000000000000
+      internalID: 6885546880869890800
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline:
     - - {x: -306.60742, y: 183.25967}
       - {x: -306.60742, y: -443.5912}
