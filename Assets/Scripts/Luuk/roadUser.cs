@@ -61,6 +61,7 @@ public class roadUser : MonoBehaviour
             roadUser userscript = collision.gameObject.GetComponent<roadUser>();
             if (userscript.laneNumber != laneNumber)
             {
+                Debug.Log("Accident!!!!");
                 accident = true;
                 StartCoroutine(Die());
             }
