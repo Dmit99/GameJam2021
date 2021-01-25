@@ -147,10 +147,12 @@ public class GameManager : MonoBehaviour
         }
         else if (isScooter == 1)
         {
+            int scooterSpriteNumber = Random.Range(0, scooterSprites.Length+1);
+            user.transform.localScale = new Vector3(0.7f, 0.7f, 1);
             bool waitingForTrafficLights = (Random.value > 0.5f);
 
             Scooter scooterScript = user.AddComponent<Scooter>();
-            scooterScript.GenerateScooter(scooterImage: scooterSprites[0], stoplightGo: waitingForTrafficLights, drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), laneNumber: rowNumber, roadusername: "Biker_" + currentRoadUsersActive + 1);
+            scooterScript.GenerateScooter(scooterImage: scooterSprites[scooterSpriteNumber], stoplightGo: waitingForTrafficLights, drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), laneNumber: rowNumber, roadusername: "Biker_" + currentRoadUsersActive + 1);
         }
 
         roadUsersInScene.Add(user);
