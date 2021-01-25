@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour
 
     [Header("Global Information")]
     public TextMeshProUGUI timer;
-    public TextMeshProUGUI score;
     public GameObject[] roadUserRow;
     public List<GameObject> roadUsersInScene;
     private Transform[] spawnLocation;
@@ -26,7 +25,7 @@ public class GameManager : MonoBehaviour
     private readonly float timerAmount = 60;
     private float actualTimer;
     private int laneToAdd = 1;
-    private int points;
+    private int mistakes;
     private bool addingLane;
     private bool spawnedRoadUser;
     private bool generatingRoadUser;
@@ -43,7 +42,7 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
         }
 
-        points = 0;
+        mistakes = 0;
         actualTimer = timerAmount;
         addingLane = false;
         spawnedRoadUser = false;
@@ -55,8 +54,6 @@ public class GameManager : MonoBehaviour
         {
             Debug.Log("bikersprites is or to long or its to short. bikersprites must be 4! \nCurrent value is: " + bikerSprites.Length);
         }
-
-        score.text = "Score: 0";
     }
 
     void Start()
@@ -75,6 +72,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Timer(timerAmount);
+        MistakesMade();
+
 
         if (actualTimer < 40 && actualTimer > 39 && !addingLane)
         {
@@ -94,6 +93,16 @@ public class GameManager : MonoBehaviour
         if (currentRoadUsersActive < MaxAmountOfRoadUsersPerLane && !generatingRoadUser)
         {
             GenerateSpawnLocationForBiker();
+        }
+    }
+
+    //Stopt de applicatie als je 3 kruisjes behaald hebt.
+    //Moet nog veranderd worden naar andere scene.
+    public void MistakesMade()
+    {
+        if(mistakes >= 3)
+        {
+            Application.Quit();
         }
     }
 
@@ -159,10 +168,10 @@ public class GameManager : MonoBehaviour
         currentRoadUsersActive--;
     }
 
-    public void RoadUserSavePass()
+    public void RoadUserCrashed()
     {
-        points++;
-        score.text = "Score: " + points;
+        mistakes++;
+        UI_CrossSystem.instance.PlayerMistakesMade(mistakes);
     }
 
     private void GetSpawnLocations()
