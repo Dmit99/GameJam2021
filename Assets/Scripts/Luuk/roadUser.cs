@@ -52,7 +52,6 @@ public class roadUser : MonoBehaviour
     {
         if (collision.gameObject.tag == "LaneCollider")
         {
-            GameManager.instance.RoadUserSavePass();
             StartCoroutine(Die());
         }
         
@@ -63,6 +62,7 @@ public class roadUser : MonoBehaviour
             {
                 Debug.Log("Accident!!!!");
                 accident = true;
+                GameManager.instance.RoadUserCrashed();
                 StartCoroutine(Die());
             }
         }
