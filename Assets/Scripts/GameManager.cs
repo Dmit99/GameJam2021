@@ -72,6 +72,8 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Timer(timerAmount);
+        MistakesMade();
+
 
         if (actualTimer < 40 && actualTimer > 39 && !addingLane)
         {
@@ -91,6 +93,16 @@ public class GameManager : MonoBehaviour
         if (currentRoadUsersActive < MaxAmountOfRoadUsersPerLane && !generatingRoadUser)
         {
             GenerateSpawnLocationForBiker();
+        }
+    }
+
+    //Stopt de applicatie als je 3 kruisjes behaald hebt.
+    //Moet nog veranderd worden naar andere scene.
+    public void MistakesMade()
+    {
+        if(mistakes >= 3)
+        {
+            Application.Quit();
         }
     }
 
