@@ -93,7 +93,7 @@ public class roadUser : MonoBehaviour
 
     public void SetDriverState(bool state)
     {
-        drive = !state;
+        drive = state;
     }
 
     public bool GetStopforstoplightState()

@@ -22,19 +22,9 @@ public class D_StoppingLights : MonoBehaviour
 
     private void Update()
     {
-        if (active)
+        for (int i = 0; i < roadUsersInCollider.Count; i++)
         {
-            foreach (GameObject i in roadUsersInCollider)
-            {
-                i.gameObject.GetComponent<roadUser>().SetDriverState(false);
-            }
-        }
-        else if (!active)
-        {
-            foreach (GameObject i in roadUsersInCollider)
-            {
-                i.gameObject.GetComponent<roadUser>().SetDriverState(true);
-            }
+            roadUsersInCollider[i].GetComponent<roadUser>().SetDriverState(active);
         }
     }
 
