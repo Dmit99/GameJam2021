@@ -6,6 +6,12 @@ TagManager:
   tags:
   - LaneCollider
   - RoadUser
+  - Stoplight
+  - Timer
+  - Row001
+  - Row002
+  - Row004
+  - Row003
   layers:
   - Default
   - TransparentFX

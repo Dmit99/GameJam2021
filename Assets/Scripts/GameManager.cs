@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -9,10 +10,10 @@ public class GameManager : MonoBehaviour
     public GameObject roadUser;
 
     [Header("Global Information")]
-    public TextMeshProUGUI timer;
-    public GameObject[] roadUserRow;
+    private TextMeshProUGUI timer;
+    [SerializeField]  private GameObject[] roadUserRow = new GameObject[4];
     public List<GameObject> roadUsersInScene;
-    private Transform[] spawnLocation;
+    private Transform[] spawnLocation = new Transform[4];
 
     [Header("Sprites")]
     [Tooltip("Biker sprites must be 4 sprites!")]public Sprite[] bikerSprites;
@@ -29,6 +30,7 @@ public class GameManager : MonoBehaviour
     private bool addingLane;
     private bool spawnedRoadUser;
     private bool generatingRoadUser;
+    private bool started = false;
 
     private void Awake()
     {
@@ -41,6 +43,7 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
 
         mistakes = 0;
         actualTimer = timerAmount;
@@ -56,54 +59,83 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    void Start()
+    void Update()
     {
-        GetSpawnLocations();
-
-        for (int i = 0; i < MaxAmountOfRoadUsersPerLane; i++)
+        if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MainGame"))
         {
-            if (spawnLocation[0] != null && !spawnedRoadUser && currentRoadUsersActive < MaxAmountOfRoadUsersPerLane)
+
+            if (!started && roadUserRow !=null)
             {
-                SpawnBiker(0);
+                started = true;
+
+
+                mistakes = 0;
+                actualTimer = timerAmount;
+                addingLane = false;
+                spawnedRoadUser = false;
+                generatingRoadUser = false;
+
+                roadUsersInScene = new List<GameObject>();
+
+                if (bikerSprites.Length != 4)
+                {
+                    Debug.Log("bikersprites is or to long or its to short. bikersprites must be 4! \nCurrent value is: " + bikerSprites.Length);
+                }
+
+                roadUserRow[0] = GameObject.Find("BicycleRow001");
+                roadUserRow[1] = GameObject.Find("BicycleRow002");
+                roadUserRow[2] = GameObject.Find("BicycleRow003");
+                roadUserRow[3] = GameObject.Find("BicycleRow004");
+
+                GetSpawnLocations();
+
+                for (int i = 0; i < MaxAmountOfRoadUsersPerLane; i++)
+                {
+                    if (spawnLocation[0] != null && !spawnedRoadUser && currentRoadUsersActive < MaxAmountOfRoadUsersPerLane)
+                    {
+                        SpawnBiker(0);
+                    }
+                }
+            }
+
+            if (timer == null)
+            {
+                timer = GameObject.FindWithTag("Timer").GetComponent<TextMeshProUGUI>();
+            }
+
+            Timer(timerAmount);
+
+            UI_CrossSystem.instance.PlayerMistakesMade((int)mistakes);
+            MistakesMade();
+
+            if (actualTimer < 45 && actualTimer > 44 && !addingLane)
+            {
+                StartCoroutine(AddLane(laneToAdd));
+            }
+
+            if (actualTimer < 35 && actualTimer > 34 && !addingLane)
+            {
+                StartCoroutine(AddLane(laneToAdd));
+            }
+
+            if (actualTimer < 30 && actualTimer > 29 && !addingLane)
+            {
+                StartCoroutine(AddLane(laneToAdd));
+            }
+
+            if (currentRoadUsersActive < MaxAmountOfRoadUsersPerLane && !generatingRoadUser)
+            {
+                GenerateSpawnLocationForBiker();
             }
         }
     }
 
-    void Update()
-    {
-        Timer(timerAmount);
-
-        UI_CrossSystem.instance.PlayerMistakesMade((int)mistakes);
-        MistakesMade();
-
-        if (actualTimer < 45 && actualTimer > 44 && !addingLane)
-        {
-            StartCoroutine(AddLane(laneToAdd));
-        }
-
-        if (actualTimer < 35 && actualTimer > 34 && !addingLane)
-        {
-            StartCoroutine(AddLane(laneToAdd));
-        }
-        
-        if (actualTimer < 30 && actualTimer > 29 && !addingLane)
-        {
-            StartCoroutine(AddLane(laneToAdd));
-        }
-
-        if (currentRoadUsersActive < MaxAmountOfRoadUsersPerLane && !generatingRoadUser)
-        {
-            GenerateSpawnLocationForBiker();
-        }
-    }
-
-    //Stopt de applicatie als je 3 kruisjes behaald hebt.
-    //Moet nog veranderd worden naar andere scene.
+    ///Changes the scene when you've made 3 mistakes.
     public void MistakesMade()
     {
         if(mistakes >= 3)
         {
-            Application.Quit();
+            SceneManager.LoadScene(3);
         }
     }
 
@@ -226,9 +258,22 @@ public class GameManager : MonoBehaviour
 
         if(actualTimer <= 0)
         {
-            Debug.Log("Time done!");
-            actualTimer = startTime;
+            SceneManager.LoadScene(2);
         }
+    }
+
+    public void ChangeTheScene(int sceneNumber)
+    {
+        SceneManager.LoadScene(sceneNumber);
+        if(sceneNumber == 1)
+        {
+            started = false;
+        }
+    }
+
+    public void CloseApplication()
+    {
+        Application.Quit();
     }
 
     IEnumerator AddLane(int laneNumber)
