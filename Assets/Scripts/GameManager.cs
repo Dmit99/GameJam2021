@@ -23,6 +23,9 @@ public class GameManager : MonoBehaviour
     public int MaxAmountOfRoadUsersPerLane = 5;
     private int currentRoadUsersActive;
 
+    [Header("Audio")]
+    public AudioClip roadUserCrash;
+
     private readonly float timerAmount = 60;
     private float actualTimer;
     private int laneToAdd = 1;
@@ -31,6 +34,7 @@ public class GameManager : MonoBehaviour
     private bool spawnedRoadUser;
     private bool generatingRoadUser;
     private bool started = false;
+    private AudioSource audios;
 
     private void Awake()
     {
@@ -68,6 +72,10 @@ public class GameManager : MonoBehaviour
             {
                 started = true;
 
+                if (audios == null)
+                {
+                    audios = GameObject.Find("Canvas").GetComponent<AudioSource>();
+                }
 
                 mistakes = 0;
                 actualTimer = timerAmount;
@@ -215,6 +223,7 @@ public class GameManager : MonoBehaviour
     {
         mistakes++;
         mistakes -= 0.5f;
+        audios.PlayOneShot(roadUserCrash);
     }
 
     private void GetSpawnLocations()
