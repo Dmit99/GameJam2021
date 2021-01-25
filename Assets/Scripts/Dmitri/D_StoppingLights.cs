@@ -4,9 +4,8 @@ using UnityEngine;
 
 public class D_StoppingLights : MonoBehaviour
 {
-    public SpriteRenderer stoplight;
-    public Sprite stoplightRed;
-    public Sprite stoplightGreen;
+    public GameObject stoplightRed;
+    public GameObject stoplightGreen;
     [SerializeField] private List<GameObject> roadUsersInCollider;
 
     //If Active = true, stoplight is red. 
@@ -32,12 +31,14 @@ public class D_StoppingLights : MonoBehaviour
     {
         if (isActive)
         {
-            stoplight.sprite = stoplightRed;
+            stoplightRed.SetActive(false);
+            stoplightGreen.SetActive(true);
         }
         
         if (!isActive)
         {
-            stoplight.sprite = stoplightGreen;
+            stoplightRed.SetActive(true);
+            stoplightGreen.SetActive(false);
         }
     }
 
