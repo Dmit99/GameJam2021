@@ -57,6 +57,14 @@ public class D_StoppingLights : MonoBehaviour
     {
         if (collision.gameObject.tag == "RoadUser")
         {
+            if(collision.GetComponent<Scooter>() != null)
+            {
+               if(collision.GetComponent<Scooter>().GetStopforstoplightState() == false)
+               {
+                    Debug.Log("Current state is: " + collision.GetComponent<Scooter>().GetStopforstoplightState());
+                    return;
+               }
+            }
             roadUsersInCollider.Add(collision.gameObject);
         }
     }
