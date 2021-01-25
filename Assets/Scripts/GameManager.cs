@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
     private readonly float timerAmount = 60;
     private float actualTimer;
     private int laneToAdd = 1;
-    private int mistakes;
+    private float mistakes;
     private bool addingLane;
     private bool spawnedRoadUser;
     private bool generatingRoadUser;
@@ -72,20 +72,21 @@ public class GameManager : MonoBehaviour
     void Update()
     {
         Timer(timerAmount);
+
+        UI_CrossSystem.instance.PlayerMistakesMade((int)mistakes);
         MistakesMade();
 
-
-        if (actualTimer < 40 && actualTimer > 39 && !addingLane)
+        if (actualTimer < 45 && actualTimer > 44 && !addingLane)
         {
             StartCoroutine(AddLane(laneToAdd));
         }
 
-        if (actualTimer < 30 && actualTimer > 19 && !addingLane)
+        if (actualTimer < 35 && actualTimer > 34 && !addingLane)
         {
             StartCoroutine(AddLane(laneToAdd));
         }
         
-        if (actualTimer < 20 && actualTimer > 19 && !addingLane)
+        if (actualTimer < 30 && actualTimer > 29 && !addingLane)
         {
             StartCoroutine(AddLane(laneToAdd));
         }
@@ -152,7 +153,15 @@ public class GameManager : MonoBehaviour
             bool waitingForTrafficLights = (Random.value > 0.5f);
 
             Scooter scooterScript = user.AddComponent<Scooter>();
-            scooterScript.GenerateScooter(scooterImage: scooterSprites[scooterSpriteNumber], stoplightGo: waitingForTrafficLights, drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), laneNumber: rowNumber, roadusername: "Biker_" + currentRoadUsersActive + 1);
+
+            if (waitingForTrafficLights)
+            {
+                scooterScript.GenerateScooter(scooterImage: scooterSprites[0], stoplightGo: waitingForTrafficLights, drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), laneNumber: rowNumber, roadusername: "Biker_" + currentRoadUsersActive + 1);
+            }
+            else if (!waitingForTrafficLights)
+            {
+                scooterScript.GenerateScooter(scooterImage: scooterSprites[1], stoplightGo: waitingForTrafficLights, drive: true, accident: false, stoplightstop: waitingForTrafficLights, speed: Random.Range(1, 10), laneNumber: rowNumber, roadusername: "Biker_" + currentRoadUsersActive + 1);
+            }
         }
 
         roadUsersInScene.Add(user);
@@ -173,7 +182,7 @@ public class GameManager : MonoBehaviour
     public void RoadUserCrashed()
     {
         mistakes++;
-        UI_CrossSystem.instance.PlayerMistakesMade(mistakes);
+        mistakes -= 0.5f;
     }
 
     private void GetSpawnLocations()
