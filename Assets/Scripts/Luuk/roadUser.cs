@@ -37,7 +37,7 @@ public class roadUser : MonoBehaviour
 
     private void Update()
     {
-        if (!accident)
+        if (!accident && drive)
         {
             Moving();
         }
@@ -60,7 +60,6 @@ public class roadUser : MonoBehaviour
             roadUser userscript = collision.gameObject.GetComponent<roadUser>();
             if (userscript.laneNumber != laneNumber)
             {
-                Debug.Log("Accident!!!!");
                 accident = true;
                 GameManager.instance.RoadUserCrashed();
                 StartCoroutine(Die());
@@ -90,6 +89,11 @@ public class roadUser : MonoBehaviour
     public bool GetDriversState()
     {
         return drive;
+    }
+
+    public void SetDriverState(bool state)
+    {
+        drive = state;
     }
 
     public bool GetStopforstoplightState()

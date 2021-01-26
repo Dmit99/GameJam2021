@@ -32,9 +32,7 @@ public class Biker : roadUser
 
     private void Start()
     {
-
         StartCoroutine(VisualMoving(currentSpeed: CalculateSpriteSpeed(speed)));
-        Debug.Log("current speed is: " + speed + " animation speed is: " + CalculateSpriteSpeed(speed));
     }
 
     IEnumerator VisualMoving(float currentSpeed)

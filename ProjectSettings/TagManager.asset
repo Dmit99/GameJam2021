@@ -5,6 +5,14 @@ TagManager:
   serializedVersion: 2
   tags:
   - LaneCollider
+  - RoadUser
+  - Stoplight
+  - Timer
+  - Row001
+  - Row002
+  - Row004
+  - Row003
+  - InformationCanvas
   layers:
   - Default
   - TransparentFX

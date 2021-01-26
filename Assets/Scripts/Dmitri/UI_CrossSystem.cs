@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class UI_CrossSystem : MonoBehaviour
 {
-    private int mistakesMade;
+    private int mistakesMade = 0;
     private int numOfCrosses = 5;
 
     public Image[] cross;
@@ -17,7 +17,6 @@ public class UI_CrossSystem : MonoBehaviour
         if (instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if (instance != this)
         {
@@ -27,11 +26,11 @@ public class UI_CrossSystem : MonoBehaviour
 
     public void PlayerMistakesMade(int currentMistakes)
     {
-        mistakesMade = currentMistakes;
+        mistakesMade = currentMistakes -1;
 
         for (int i = 0; i < cross.Length; i++)
         {
-            if (i < mistakesMade)
+            if (i > mistakesMade)
             {
                 cross[i].sprite = emptyCross;
             }
