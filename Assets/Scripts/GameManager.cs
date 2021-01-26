@@ -35,15 +35,13 @@ public class GameManager : MonoBehaviour
     private bool generatingRoadUser;
     private bool started = false;
     private AudioSource audios;
-    private bool howToPlayInfo = false;
-    private Canvas instructioncanvas;
+
 
     private void Awake()
     {
         if(instance == null)
         {
             instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else if(instance != null)
         {
@@ -56,28 +54,12 @@ public class GameManager : MonoBehaviour
         addingLane = false;
         spawnedRoadUser = false;
         generatingRoadUser = false;
-        howToPlayInfo = false;
 
         roadUsersInScene = new List<GameObject>();
-
-        if (instructioncanvas == null && SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
-        {
-            instructioncanvas = GameObject.FindWithTag("InformationCanvas").GetComponent<Canvas>();
-            instructioncanvas.enabled = howToPlayInfo;
-        }
     }
 
     void Update()
     {
-        if(SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
-        {
-            if(instructioncanvas == null)
-            {
-                instructioncanvas = GameObject.FindWithTag("InformationCanvas").GetComponent<Canvas>();
-                instructioncanvas.enabled = howToPlayInfo;
-            }
-        }
-
         if (SceneManager.GetActiveScene() == SceneManager.GetSceneByName("MainGame"))
         {
 
@@ -290,20 +272,6 @@ public class GameManager : MonoBehaviour
         if(sceneNumber == 1)
         {
             started = false;
-        }
-    }
-
-    public void HowToPlay()
-    {
-        howToPlayInfo = !howToPlayInfo;
-        if (howToPlayInfo)
-        {
-            instructioncanvas.enabled = true;
-        }
-
-        if (!howToPlayInfo)
-        {
-            instructioncanvas.enabled = false;
         }
     }
 
