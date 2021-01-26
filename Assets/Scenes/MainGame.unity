@@ -466,8 +466,8 @@ MonoBehaviour:
   scooterSprites:
   - {fileID: -5348620402589782276, guid: 4618b538f22fd3a439d7a6e87f34826f, type: 3}
   - {fileID: -1875699615794199021, guid: 4618b538f22fd3a439d7a6e87f34826f, type: 3}
-  MaxAmountOfRoadUsersPerLane: 5
-  roadUserCrash: {fileID: 0}
+  MaxAmountOfRoadUsersPerLane: 10
+  roadUserCrash: {fileID: 8300000, guid: b1aa386061db7a64799b4d26653e7c9b, type: 3}
 --- !u!4 &600281975
 Transform:
   m_ObjectHideFlags: 0
