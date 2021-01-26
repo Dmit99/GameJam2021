@@ -62,7 +62,6 @@ public class D_StoppingLights : MonoBehaviour
             {
                if(collision.GetComponent<Scooter>().GetStopforstoplightState() == false)
                {
-                    Debug.Log("Current state is: " + collision.GetComponent<Scooter>().GetStopforstoplightState());
                     return;
                }
             }
