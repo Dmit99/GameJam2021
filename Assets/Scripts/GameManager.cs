@@ -60,9 +60,9 @@ public class GameManager : MonoBehaviour
 
         roadUsersInScene = new List<GameObject>();
 
-        if (instructioncanvas == null)
+        if (instructioncanvas == null && SceneManager.GetActiveScene() == SceneManager.GetSceneByBuildIndex(0))
         {
-            instructioncanvas = GameObject.Find("HowTOPlayCanvas").GetComponent<Canvas>();
+            instructioncanvas = GameObject.FindWithTag("InformationCanvas").GetComponent<Canvas>();
             instructioncanvas.enabled = howToPlayInfo;
         }
     }
@@ -73,7 +73,8 @@ public class GameManager : MonoBehaviour
         {
             if(instructioncanvas == null)
             {
-                instructioncanvas = GameObject.Find("HowTOPlayCanvas").GetComponent<Canvas>();
+                instructioncanvas = GameObject.FindWithTag("InformationCanvas").GetComponent<Canvas>();
+                instructioncanvas.enabled = howToPlayInfo;
             }
         }
 
